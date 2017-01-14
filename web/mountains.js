@@ -43,7 +43,7 @@ function locateMountain(latitude, longitude) {
   $('#listDistances').empty();
 
   for (var i = 0; i < 10; i++) {
-    $('#listDistances').append('<li>' + mountains[i].title + " - " + Math.round(mountains[i].distance) + "km" + '</li>');
+    $('#listDistances').append('<li><a href="' + mountains[i].url + '">' + mountains[i].title + " - " + Math.round(mountains[i].distance) + "km" + '</li>');
   }
 }
 
