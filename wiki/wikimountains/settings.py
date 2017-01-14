@@ -19,6 +19,10 @@ DEPTH_LIMIT=1
 FEED_FORMAT="json"
 FEED_URI="items.json"
 
+LOG_LEVEL = 'ERROR'
+
+CLOSESPIDER_ERRORCOUNT = 1
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'wikimountains (+http://www.yourdomain.com)'
@@ -63,9 +67,9 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
-#EXTENSIONS = {
-#    'scrapy.extensions.telnet.TelnetConsole': None,
-#}
+EXTENSIONS = {
+    'scrapy.extensions.closespider.CloseSpider': 300,
+}
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html

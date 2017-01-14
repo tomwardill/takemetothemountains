@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 
 
 class WikimountainsPipeline(object):
@@ -34,6 +35,20 @@ class WikimountainsPipeline(object):
             dec *= -1
         return dec
 
+    @staticmethod
+    def convert_elevation(original):
+        """
+        Convert the text from wikipedia into something we can use
+        """
+        if not original:
+            return original
+        matches = re.findall('([0-9,]+)', original)
+        if not matches:
+            return original
+        if len(matches) == 1:
+            return matches[0]
+        return matches[0] if original.find('m') < original.find('ft') else matches[1]
+
     def process_item(self, item, _):
         """
         Process the item, stripping unicode chars and converting
@@ -47,7 +62,11 @@ class WikimountainsPipeline(object):
         decimal_lat = self.dms2dd(lat)
         decimal_lon = self.dms2dd(lon)
 
+        item['elevation'] = self.convert_elevation(item['elevation'])
         item['decimal_latitude'] = decimal_lat
         item['decimal_longitude'] = decimal_lon
+
+        del(item['latitude'])
+        del(item['longitude'])
 
         return item

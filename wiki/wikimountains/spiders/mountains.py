@@ -12,15 +12,20 @@ class MountainsSpider(scrapy.Spider):
 
         latitude = response.css('.latitude').xpath('text()').extract_first()
         longitude = response.css('.longitude').xpath('text()').extract_first()
+        elevation = response.xpath('//a[contains(@href, "topography")]/../../td/text()').extract_first()
 
         if latitude and longitude:
             text = response.css('#firstHeading').xpath('text()')
             title = text.extract_first()
+
+            if 'Geography of' in title:
+                return None
             yield {
                 'latitude': latitude,
                 'longitude': longitude,
+                'elevation': elevation,
                 'title': title,
-                'url': response.url
+                'url': response.url.split('/')[-1]
             }
 
         links = response.xpath('//table//a[contains(@href, "/wiki/")]/@href').extract()

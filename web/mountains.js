@@ -22,6 +22,13 @@ function locateMountain(latitude, longitude) {
     return d;
   }
 
+  function getElevation(elevation) {
+    if (elevation === null) {
+      return 'unknown';
+    }
+    return elevation;
+  }
+
   mountains.sort(function(a, b) {
     var aDistance = getDistanceFromLatLonInKm(latitude, longitude, a.decimal_latitude, a.decimal_longitude);
     a.distance = aDistance;
@@ -37,13 +44,13 @@ function locateMountain(latitude, longitude) {
 
   var popup = L.popup()
     .setLatLng(latlng)
-    .setContent(mountains[0].title + " - " + Math.round(mountains[0].distance) + "km")
+    .setContent(mountains[0].title + " - " + getElevation(mountains[0].elevation) + "m - " + Math.round(mountains[0].distance) + "km")
     .openOn(mymap);
 
   $('#listDistances').empty();
 
   for (var i = 0; i < 10; i++) {
-    $('#listDistances').append('<li><a href="' + mountains[i].url + '">' + mountains[i].title + " - " + Math.round(mountains[i].distance) + "km" + '</li>');
+    $('#listDistances').append('<li><a href="https://en.wikipedia.org/wiki/' + mountains[i].url + '">' + mountains[i].title + " - " + getElevation(mountains[i].elevation) + " metres - " + Math.round(mountains[i].distance) + "km" + '</li>');
   }
 }
 
