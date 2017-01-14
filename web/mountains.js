@@ -64,7 +64,7 @@ var geocoder = L.Control.geocoder({
   .addTo(mymap);
 
 
-$.getJSON("converted_items.json", function(json) {
+$.getJSON("items.json", function(json) {
   mountains = json;
 
   navigator.geolocation.getCurrentPosition(function(position) {
