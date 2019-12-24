@@ -12,7 +12,7 @@ class MountainsSpider(scrapy.Spider):
 
         latitude = response.css('.latitude').xpath('text()').extract_first()
         longitude = response.css('.longitude').xpath('text()').extract_first()
-        elevation = response.xpath('//a[contains(@href, "topography")]/../../td/text()').extract_first()
+        elevation = response.xpath('//a[contains(@href, "Summit")]/../../td/text()').extract_first()
 
         if latitude and longitude:
             text = response.css('#firstHeading').xpath('text()')
