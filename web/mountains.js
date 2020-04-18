@@ -29,7 +29,7 @@ function locateMountain(latitude, longitude) {
     return elevation;
   }
 
-  mountains.sort(function(a, b) {
+  mountains.sort(function (a, b) {
     var aDistance = getDistanceFromLatLonInKm(latitude, longitude, a.decimal_latitude, a.decimal_longitude);
     a.distance = aDistance;
     var bDistance = getDistanceFromLatLonInKm(latitude, longitude, b.decimal_latitude, b.decimal_longitude);
@@ -63,18 +63,23 @@ L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/outdoors-v10/tiles/256/{z}/
 
 
 var geocoder = L.Control.geocoder({
-    defaultMarkGeocode: false
-  })
-  .on('markgeocode', function(e) {
+  defaultMarkGeocode: false
+})
+  .on('markgeocode', function (e) {
     locateMountain(e.geocode.center.lat, e.geocode.center.lng);
   })
   .addTo(mymap);
 
 
-$.getJSON("items.json", function(json) {
+$.getJSON("items.json", function (json) {
   mountains = json;
 
-  navigator.geolocation.getCurrentPosition(function(position) {
-    locateMountain(position.coords.latitude, position.coords.longitude);
-  });
+  navigator.geolocation.getCurrentPosition(
+    function (position) {
+      locateMountain(position.coords.latitude, position.coords.longitude);
+    },
+    function (error) {
+      console.log(error);
+    },
+    {timeout: 10000});
 });
