@@ -28,6 +28,6 @@ class MountainsSpider(scrapy.Spider):
                 'url': response.url.split('/')[-1]
             }
 
-        links = response.xpath('//table//a[contains(@href, "/wiki/")]/@href').extract()
+        links = response.xpath('//table//td[1]//a[contains(@href, "/wiki/")]/@href').extract()
         for link in links:
             yield scrapy.Request(response.urljoin(link))
